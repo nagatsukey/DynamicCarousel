@@ -1,54 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DynamicCarousel.css";
 
-export default React.memo(() => {
-  return (
-    <div className="wrapper">
-      <input type="radio" name="slider" id="slide1" />
-      <input type="radio" name="slider" id="slide2" />
-      <input defaultChecked={true} type="radio" name="slider" id="slide3" />
-      <input type="radio" name="slider" id="slide4" />
-      <input type="radio" name="slider" id="slide5" />
+export default React.memo(
+  ({ initialSlide = 0, children = [], infinite = false }) => {
+    const [slide, setSlide] = useState(initialSlide);
+    const innerStyle = {
+      marginLeft: `${slide * -100}%`,
+      width: `${children.length * 100}%`
+    };
+    const articleStyle = {
+      width: `${100 / children.length}%`
+    };
+    const slides = children.map((content, index) => {
+      return (
+        <article style={articleStyle} key={`slide${index}`}>
+          {content}
+        </article>
+      );
+    });
+    const updateSlide = num => {
+      let nextSlide = slide + num;
+      if (infinite) {
+        nextSlide = nextSlide < 0 ? children.length - 1 : nextSlide;
+        nextSlide = nextSlide >= children.length ? 0 : nextSlide;
+      } else {
+        nextSlide = nextSlide < 0 ? 0 : nextSlide;
+        nextSlide =
+          nextSlide >= children.length ? children.length - 1 : nextSlide;
+      }
+      setSlide(nextSlide);
+    };
+    const onClickPrev = () => {
+      updateSlide(-1);
+    };
+    const onClickNext = () => {
+      updateSlide(1);
+    };
+    return (
+      <div className="wrapper">
+        <div className="slider-wrapper">
+          <div className="inner" style={innerStyle}>
+            {slides}
+          </div>
+        </div>
 
-      <div className="slider-wrapper">
-        <div className="inner">
-          <article>
-            <img src="https://farm9.staticflickr.com/8059/28286750501_dcc27b1332_h_d.jpg" />
-          </article>
-
-          <article>
-            <img src="https://farm6.staticflickr.com/5812/23394215774_b76cd33a87_h_d.jpg" />
-          </article>
-
-          <article>
-            <img src="https://farm8.staticflickr.com/7455/27879053992_ef3f41c4a0_h_d.jpg" />
-          </article>
-
-          <article>
-            <img src="https://farm8.staticflickr.com/7367/27980898905_72d106e501_h_d.jpg" />
-          </article>
-
-          <article>
-            <img src="https://farm8.staticflickr.com/7356/27980899895_9b6c394fec_h_d.jpg" />
-          </article>
+        <div className="slider-prev-next-control">
+          <button className="button--prev" onClick={onClickPrev} />
+          <button className="button--next" onClick={onClickNext} />
         </div>
       </div>
-
-      <div className="slider-prev-next-control">
-        <label htmlFor="slide1" />
-        <label htmlFor="slide2" />
-        <label htmlFor="slide3" />
-        <label htmlFor="slide4" />
-        <label htmlFor="slide5" />
-      </div>
-
-      <div className="slider-dot-control">
-        <label htmlFor="slide1" />
-        <label htmlFor="slide2" />
-        <label htmlFor="slide3" />
-        <label htmlFor="slide4" />
-        <label htmlFor="slide5" />
-      </div>
-    </div>
-  );
-});
+    );
+  },
+  (prevProps, nextProps) =>
+    prevProps.slideIndex === nextProps.slideIndex &&
+    prevProps.children === nextProps.slideIndex
+);

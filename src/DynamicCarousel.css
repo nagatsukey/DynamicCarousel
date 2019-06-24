@@ -9,12 +9,10 @@ input {
 }
 
 .inner {
-  width: 500%;
   line-height: 0;
 }
 
 article {
-  width: 20%;
   float: left;
   position: relative;
 }
@@ -32,52 +30,12 @@ article img {
   transform: translateY(-50%);
 }
 
-.slider-prev-next-control label {
-  display: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: #fff;
-  opacity: 0.7;
-}
-
-.slider-prev-next-control label:hover {
-  opacity: 1;
-}
-
-.slider-dot-control {
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  text-align: center;
-}
-
-.slider-dot-control label {
-  cursor: pointer;
-  border-radius: 5px;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
-  background: #bbb;
-  transition: all 0.3s;
-}
-
-.slider-dot-control label:hover {
-  background: #ccc;
-  border-color: #777;
-}
-
-.slider-dot-control label + label {
-  margin-left: 5px;
-}
-
 /* Slider Styling */
 .slider-wrapper {
   width: 100%;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 1px 1px 4px #666;
-  background: #fff;
   background: #fcfff4;
   transform: translateZ(0);
   transition: all 500ms ease-out;
@@ -89,111 +47,42 @@ article img {
 }
 
 /*---- SET POSITION FOR SLIDE ----*/
-
-#slide1:checked .slider-wrapper .inner {
-  margin-left: 0;
-}
-
-#slide2:checked .slider-wrapper .inner {
-  margin-left: -100%;
-}
-
-#slide3:checked .slider-wrapper .inner {
-  margin-left: -200%;
-}
-
-#slide4:checked .slider-wrapper .inner {
-  margin-left: -300%;
-}
-
-#slide5:checked .slider-wrapper .inner {
-  margin-left: -400%;
-}
-
-#slide1:checked ~ .slider-wrapper .inner {
-  margin-left: 0;
-}
-
-#slide2:checked ~ .slider-wrapper .inner {
-  margin-left: -100%;
-}
-
-#slide3:checked ~ .slider-wrapper .inner {
-  margin-left: -200%;
-}
-
-#slide4:checked ~ .slider-wrapper .inner {
-  margin-left: -300%;
-}
-
-#slide5:checked ~ .slider-wrapper .inner {
-  margin-left: -400%;
-}
-
-#slide1:checked ~ .slider-dot-control label:nth-child(1),
-#slide2:checked ~ .slider-dot-control label:nth-child(2),
-#slide3:checked ~ .slider-dot-control label:nth-child(3),
-#slide4:checked ~ .slider-dot-control label:nth-child(4),
-#slide5:checked ~ .slider-dot-control label:nth-child(5) {
-  background: #333;
-}
-
-#slide2:checked ~ .slider-prev-next-control label:nth-child(1),
-#slide3:checked ~ .slider-prev-next-control label:nth-child(2),
-#slide4:checked ~ .slider-prev-next-control label:nth-child(3),
-#slide5:checked ~ .slider-prev-next-control label:nth-child(4),
-#slide1:checked ~ .slider-prev-next-control label:nth-child(5) {
+.button--prev {
   display: block;
   float: left;
-  margin-left: 5px;
-}
-
-#slide1:checked ~ .slider-prev-next-control label:nth-child(2),
-#slide2:checked ~ .slider-prev-next-control label:nth-child(3),
-#slide3:checked ~ .slider-prev-next-control label:nth-child(4),
-#slide4:checked ~ .slider-prev-next-control label:nth-child(5),
-#slide5:checked ~ .slider-prev-next-control label:nth-child(1) {
-  display: block;
-  float: right;
-  margin-right: 5px;
-}
-
-#slide2:checked ~ .slider-prev-next-control label:nth-child(1)::after,
-#slide3:checked ~ .slider-prev-next-control label:nth-child(2)::after,
-#slide4:checked ~ .slider-prev-next-control label:nth-child(3)::after,
-#slide5:checked ~ .slider-prev-next-control label:nth-child(4)::after,
-#slide1:checked ~ .slider-prev-next-control label:nth-child(5)::after {
-  content: "\f104";
-  padding-left: 8px;
-}
-
-#slide1:checked ~ .slider-prev-next-control label:nth-child(2)::after,
-#slide2:checked ~ .slider-prev-next-control label:nth-child(3)::after,
-#slide3:checked ~ .slider-prev-next-control label:nth-child(4)::after,
-#slide4:checked ~ .slider-prev-next-control label:nth-child(5)::after,
-#slide5:checked ~ .slider-prev-next-control label:nth-child(1)::after {
-  content: "\f105";
-  padding-left: 15px;
-}
-
-#slide1:checked ~ .slider-prev-next-control label:nth-child(2)::after,
-#slide2:checked ~ .slider-prev-next-control label:nth-child(3)::after,
-#slide3:checked ~ .slider-prev-next-control label:nth-child(4)::after,
-#slide4:checked ~ .slider-prev-next-control label:nth-child(5)::after,
-#slide5:checked ~ .slider-prev-next-control label:nth-child(1)::after,
-#slide2:checked ~ .slider-prev-next-control label:nth-child(1)::after,
-#slide3:checked ~ .slider-prev-next-control label:nth-child(2)::after,
-#slide4:checked ~ .slider-prev-next-control label:nth-child(3)::after,
-#slide5:checked ~ .slider-prev-next-control label:nth-child(4)::after,
-#slide1:checked ~ .slider-prev-next-control label:nth-child(5)::after {
-  font-family: "Font Awesome 5 Free";
   font-style: normal;
   font-weight: normal;
   text-decoration: inherit;
   margin: 0;
   line-height: 38px;
   font-size: 3em;
-  display: block;
   color: #777;
   font-weight: bold;
+  background: none;
+  border: none;
+}
+
+.button--prev::after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f104";
+}
+
+.button--next {
+  display: block;
+  font-style: normal;
+  font-weight: normal;
+  text-decoration: inherit;
+  margin: 0;
+  line-height: 38px;
+  font-size: 3em;
+  color: #777;
+  font-weight: bold;
+  background: none;
+  border: none;
+  float: right;
+}
+
+.button--next::after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f105";
 }
