@@ -4,16 +4,16 @@ import "./DynamicCarousel.css";
 export default React.memo(
   ({ initialSlide = 0, children = [], infinite = false }) => {
     const [slide, setSlide] = useState(initialSlide);
-    const innerStyle = {
+    const sliderStyle = {
       marginLeft: `${slide * -100}%`,
       width: `${children.length * 100}%`
     };
-    const articleStyle = {
+    const slideleStyle = {
       width: `${100 / children.length}%`
     };
     const slides = children.map((content, index) => {
       return (
-        <article style={articleStyle} key={`slide${index}`}>
+        <article className="Slide" style={slideleStyle} key={`slide${index}`}>
           {content}
         </article>
       );
@@ -37,18 +37,18 @@ export default React.memo(
       updateSlide(1);
     };
     return (
-      <div className="wrapper">
-        <div className="slider-wrapper">
-          <div className="inner" style={innerStyle}>
+      <React.Fragment>
+        <div className="Block">
+          <div className="Slider" style={sliderStyle}>
             {slides}
           </div>
         </div>
 
-        <div className="slider-prev-next-control">
-          <button className="button--prev" onClick={onClickPrev} />
-          <button className="button--next" onClick={onClickNext} />
+        <div className="SliderControl">
+          <button className="ButtonPrev" onClick={onClickPrev} />
+          <button className="ButtonNext" onClick={onClickNext} />
         </div>
-      </div>
+      </React.Fragment>
     );
   },
   (prevProps, nextProps) =>
