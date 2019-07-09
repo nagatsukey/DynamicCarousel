@@ -1,12 +1,32 @@
 import React, { useState } from "react";
 import "./DynamicCarousel.css";
 
+export const SLIDE_ACTION = {
+  NOMAL: "NOMAL",
+  PREVING: "PREVING",
+  NEXTING: "NEXTING"
+};
+
 export default React.memo(
-  ({ initialSlide = 0, children = [], infinite = false }) => {
-    const [slide, setSlide] = useState(initialSlide);
+  ({
+    // initialSlide = 1,
+    children = [],
+    afterChange = () => {},
+    isEnd = false,
+    isStart = false
+  }) => {
+    const [slideState, setSlideState] = useState(SLIDE_ACTION.NOMAL);
     const slideleStyle = index => {
+      const standardMargin = -100 + index * 100;
+      let slidingMargin = 0;
+      if (slideState === SLIDE_ACTION.PREVING) {
+        slidingMargin = 100;
+      } else if (slideState === SLIDE_ACTION.NEXTING) {
+        slidingMargin = -100;
+      }
+      const startMargin = isStart ? 100 : 0;
       return {
-        marginLeft: `${-100 * slide + 100 * index}%`
+        marginLeft: `${standardMargin + slidingMargin + startMargin}%`
       };
     };
     const slides = children.map((content, index) => {
@@ -14,37 +34,48 @@ export default React.memo(
         <article
           className="Slide"
           style={slideleStyle(index)}
-          key={`slide${index}`}
+          key={`slide_${content.key}`}
+          onTransitionEnd={() => {
+            // 1つ目のスライドにだけtransition終了時のイベントを追加
+            if (index === 0) {
+              afterChange(slideState);
+              setSlideState(SLIDE_ACTION.NOMAL);
+            }
+          }}
         >
           {content}
         </article>
       );
     });
-    const updateSlide = num => {
-      let nextSlide = slide + num;
-      if (infinite) {
-        nextSlide = nextSlide < 0 ? children.length - 1 : nextSlide;
-        nextSlide = nextSlide >= children.length ? 0 : nextSlide;
-      } else {
-        nextSlide = nextSlide < 0 ? 0 : nextSlide;
-        nextSlide =
-          nextSlide >= children.length ? children.length - 1 : nextSlide;
-      }
-      setSlide(nextSlide);
-    };
     const onClickPrev = () => {
-      updateSlide(-1);
+      setSlideState(SLIDE_ACTION.PREVING);
     };
     const onClickNext = () => {
-      updateSlide(1);
+      setSlideState(SLIDE_ACTION.NEXTING);
     };
+    const isSliding =
+      slideState === SLIDE_ACTION.PREVING ||
+      slideState === SLIDE_ACTION.NEXTING;
     return (
       <React.Fragment>
         <div className="Block">{slides}</div>
-
         <div className="SliderControl">
-          <button className="ButtonPrev" onClick={onClickPrev} />
-          <button className="ButtonNext" onClick={onClickNext} />
+          {isStart ? null : (
+            <button
+              className="ButtonPrev"
+              onClick={onClickPrev}
+              disabled={isSliding}
+              style={isStart ? { visibility: true } : null}
+            />
+          )}
+          {isEnd ? null : (
+            <button
+              className="ButtonNext"
+              onClick={onClickNext}
+              disabled={isSliding || isEnd}
+              style={isEnd ? { visibility: true } : null}
+            />
+          )}
         </div>
       </React.Fragment>
     );
