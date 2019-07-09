@@ -24,7 +24,7 @@ function App() {
   };
   return (
     <div className="App">
-      <DynamicCarousel contents={contents} initialSlide={1} infinite={true}>
+      <DynamicCarousel contents={contents} initialSlide={0} infinite={true}>
         {contents.map((content, idx) => {
           return (
             <img

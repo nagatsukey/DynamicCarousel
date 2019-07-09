@@ -4,16 +4,18 @@ import "./DynamicCarousel.css";
 export default React.memo(
   ({ initialSlide = 0, children = [], infinite = false }) => {
     const [slide, setSlide] = useState(initialSlide);
-    const sliderStyle = {
-      marginLeft: `${slide * -100}%`,
-      width: `${children.length * 100}%`
-    };
-    const slideleStyle = {
-      width: `${100 / children.length}%`
+    const slideleStyle = index => {
+      return {
+        marginLeft: `${-100 * slide + 100 * index}%`
+      };
     };
     const slides = children.map((content, index) => {
       return (
-        <article className="Slide" style={slideleStyle} key={`slide${index}`}>
+        <article
+          className="Slide"
+          style={slideleStyle(index)}
+          key={`slide${index}`}
+        >
           {content}
         </article>
       );
@@ -38,11 +40,7 @@ export default React.memo(
     };
     return (
       <React.Fragment>
-        <div className="Block">
-          <div className="Slider" style={sliderStyle}>
-            {slides}
-          </div>
-        </div>
+        <div className="Block">{slides}</div>
 
         <div className="SliderControl">
           <button className="ButtonPrev" onClick={onClickPrev} />
