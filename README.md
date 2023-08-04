@@ -1,1 +1,3 @@
 React Hooks勉強用に作成したReactのカルーセルコンポーネント
+
+GithubAppの勉強にも使用する
